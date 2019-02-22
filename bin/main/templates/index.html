@@ -8,7 +8,11 @@
 </head>
 <body>
 
-	<table id="tableInfo"></table>
+	<table id="tableInfo" lay-filter="tableInfo"></table>
+
+	<script type="text/html" id="tool">
+ 		<a class="layui-btn layui-btn-xs" lay-event="generate">生成代码</a>
+	</script>
 
 	<script src="/layui/layui.js"></script>
 	<script>
@@ -19,12 +23,12 @@
 				elem : '#tableInfo',
 				//数据接口
 				url : '/table/infos',
-				toolbar: true,
+				toolbar : true,
 				//表头
 				cols : [ [ {
 					field : 'tableName',
 					title : '表名',
-					width: 256,
+					width : 256,
 					sort : true
 				}, {
 					field : 'tableComment',
@@ -32,17 +36,37 @@
 				}, {
 					field : 'createTime',
 					title : '创建时间',
-					width: 160,
+					width : 160,
 					sort : true
-				},  {
+				}, {
 					field : 'updateTime',
 					title : '修改时间',
-					width: 160,
+					width : 160,
 					sort : true
+				}, {
+					title : '操作',
+					toolbar : '#tool',
+					width : 128
 				} ] ]
 			});
-
+			
+			//监听行工具事件
+			table.on('tool(tableInfo)', function(obj) {
+				var data = obj.data;
+				if (obj.event === 'generate') {
+					layer.prompt({
+						formType : 2,
+						value : data.email
+					}, function(value, index) {
+						obj.update({
+							email : value
+						});
+						layer.close(index);
+					});
+				}
+			});
 		});
+
 	</script>
 </body>
 </html>
