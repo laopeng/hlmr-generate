@@ -1,0 +1,26 @@
+server:
+  port: 8000
+spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd hh:mm:ss
+  datasource:
+    name: chrx_crawler
+    url: jdbc:mysql://192.168.4.249:3306/cloud_erp_sys_cs?useSSL=false&&characterEncoding=UTF-8
+    username: root
+    password: 1
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+  thymeleaf:
+    mode: html
+logging:
+  level:
+    root: info
+    ltd:
+      hlmr: debug
+    org:
+      hibernate: debug
