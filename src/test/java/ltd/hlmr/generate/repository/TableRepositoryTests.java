@@ -11,19 +11,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import lombok.extern.slf4j.Slf4j;
 import ltd.hlmr.generate.pojo.mysql.TableInfo;
-import ltd.hlmr.generate.repository.impl.TableInfoMysqlRepository;
+import ltd.hlmr.generate.repository.impl.TableMysqlRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
-public class TableInfoRepositoryTests {
+public class TableRepositoryTests {
 
 	@Resource
-	private TableInfoMysqlRepository tableInfoMysqlRepository;
+	private TableMysqlRepository tableMysqlRepository;
 
 	@Test
 	public void findAll() {
-		List<TableInfo> tableInfos = tableInfoMysqlRepository.findAll();
+		List<TableInfo> tableInfos = tableMysqlRepository.findAll();
 		tableInfos.forEach(e -> {
 			log.info(e.toString());
 		});

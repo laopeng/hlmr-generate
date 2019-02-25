@@ -13,11 +13,22 @@
 	<script type="text/html" id="tool">
  		<a class="layui-btn layui-btn-xs" lay-event="generate">生成代码</a>
 	</script>
+	
+	<script type="text/html" id="columnQuery">
+	  	<input type="radio" name="{{d.columnName}}" value="" title="不查" checked="">
+      	<input type="radio" name="{{d.columnName}}" value="模糊" title="模糊">
+      	<input type="radio" name="{{d.columnName}}" value="精确" title="精确">
+	</script>
+	
+	<script type="text/html" id="isColumnShow">
+  		<input type="checkbox" name="{{d.columnName}}"  title="是" lay-filter="isColumnShow"  checked=""}}>
+	</script>
 
 	<script src="/layui/layui.js"></script>
 	<script>
 		layui.use('table', function() {
 			var table = layui.table;
+			var form = layui.form;
 
 			table.render({
 				elem : '#tableInfo',
@@ -26,6 +37,9 @@
 				toolbar : true,
 				//表头
 				cols : [ [ {
+					title : '序号',
+					type : 'numbers'
+				}, {
 					field : 'tableName',
 					title : '表名',
 					width : 256,
@@ -54,9 +68,47 @@
 			table.on('tool(tableInfo)', function(obj) {
 				var data = obj.data;
 				if (obj.event === 'generate') {
-					layer.prompt({
-						formType : 2,
-						value : data.email
+					layer.open({
+						type : 1,
+						title: data.tableComment + "(" + data.tableName + ")",
+						area: ['1200px','600px'],
+						content : '<table id="tableDetail" lay-filter="tableDetail"></table>',
+						btn: ['生成', '取消'],
+						success: function(layero, index) {
+							table.render({
+								elem : '#tableDetail',
+								//数据接口
+								url : '/table/columns?tableName=' + data.tableName,
+								//表头
+								cols : [ [ {
+									title : '序号',
+									type : 'numbers'
+								},  {
+									field : 'columnName',
+									title : '字段名',
+									width : 160,
+									sort : true
+								}, {
+									field : 'columnType',
+									width : 160,
+									title : '字段类型'
+								}, {
+									field : 'columnComment',
+									title : '字段说明',
+								    width : 480,
+								}, {
+									title : '查询方式',
+									width : 200,
+									templet: '#columnQuery', 
+									unresize: true
+								}, {
+									title : '列表显示',
+									width : 128,
+									templet: '#isColumnShow',
+									unresize: true
+								} ] ]
+							});
+						}
 					}, function(value, index) {
 						obj.update({
 							email : value
@@ -65,6 +117,7 @@
 					});
 				}
 			});
+			
 		});
 
 	</script>
